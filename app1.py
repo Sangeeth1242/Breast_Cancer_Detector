@@ -13,7 +13,10 @@ mean_area = st.number_input("Mean Area")
 mean_smoothness = st.number_input("Mean Smoothness")
 
 if st.button("Predict"):
-    input_data = np.array([mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness]).reshape(1, -1)
-    prediction = rfc_model.predict(input_data)
-    result = "Malignant" if prediction[0] == 1 else "Benign"
-    st.success(f"Diagnosis: {result}")
+    if any(v is None or v == 0 for v in [mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness]):
+        st.error("Please fill in all fields with valid values.")
+    else:
+        input_data = np.array([mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness]).reshape(1, -1)
+        prediction = rfc_model.predict(input_data)
+        result = "Malignant" if prediction[0] == 1 else "Benign"
+        st.success(f"Diagnosis: {result}")
