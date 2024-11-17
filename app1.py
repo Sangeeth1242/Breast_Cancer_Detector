@@ -1,7 +1,8 @@
 import streamlit as st
 import numpy as np
 import joblib
-
+from sklearn.preprocessing import StandardScaler
+scaler = joblib.load('scaler.pkl')
 rfc_model = joblib.load('rfc_model.pkl')
 
 st.title("Breast Cancer Prediction App")
@@ -17,6 +18,8 @@ if st.button("Predict"):
         st.error("Please fill in all fields with valid values.")
     else:
         input_data = np.array([mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness]).reshape(1, -1)
+        input_data = scaler.transform(input_data)
+        st.write(f"Input Data: {input_data}, Shape: {input_data.shape}")
         prediction = rfc_model.predict(input_data)
         result = "Malignant" if prediction[0] == 1 else "Benign"
         st.success(f"Diagnosis: {result}")
