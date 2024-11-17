@@ -28,8 +28,6 @@ if st.button("Predict"):
         # Scale the input data using the saved scaler
         input_data = scaler.transform(input_data)
 
-        # Check the shape of the input data after scaling
-        st.write(f"Input Data after Scaling: {input_data}, Shape: {input_data.shape}")
 
         # Make the prediction
         try:
